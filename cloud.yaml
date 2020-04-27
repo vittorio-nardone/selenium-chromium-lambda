@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Disposable Email @ my24h.email
+    
+Parameters:
+    BucketName:
+        Description: S3 Bucket
+        Type: String    
+
+    WebSite:
+        Description: Take screenshot of this URL 
+        Type: String  
+        Default: "https://www.google.it"
+
+    SourceFolder:
+        Description: folder in S3 Bucket where source files are located (lambda)
+        Type: String
+        Default: "src"
+
+    ScreenshotsFolder:
+        Description: folder in S3 Bucket where store screenshots
+        Type: String
+        Default: "screenshots"
+
+Resources:
+
+    ScreenshotFunctionRole:
+        Type: AWS::IAM::Role
+        Properties:
+            AssumeRolePolicyDocument:
+                Version: '2012-10-17'
+                Statement:
+                -   Effect: Allow
+                    Principal:
+                        Service:
+                        - lambda.amazonaws.com
+                    Action:
+                    - sts:AssumeRole
+            Policies:
+                -   PolicyName: Allow-logs
+                    PolicyDocument:
+                        Version: '2012-10-17'
+                        Statement:
+                        -   Effect: Allow
+                            Action:
+                            - 'logs:CreateLogGroup'
+                            - 'logs:CreateLogStream'
+                            - 'logs:PutLogEvents'
+                            Resource: arn:aws:logs:*:*:*   
+                -   PolicyName: BucketGetPutObject
+                    PolicyDocument:
+                        Version: '2012-10-17'
+                        Statement:
+                        -   Effect: Allow
+                            Action:
+                            - 's3:GetObject'
+                            - 's3:PutObject'
+                            Resource: 
+                                Fn::Join: ["", ["arn:aws:s3:::", Ref: "BucketName", "/*"]] 
+                
+
+    ScreenshotFunction:
+        Type: AWS::Lambda::Function
+        Properties:
+            Runtime: python3.7
+            Description: Function to take a screenshot of a website.
+            Handler: src/lambda_function.lambda_handler
+            Role: 
+                Fn::GetAtt: [ "ScreenshotFunctionRole", "Arn" ]
+            Environment:
+                Variables:
+                    PYTHONPATH: "/var/task/src:/var/task/lib"
+                    PATH: "/var/task/bin"
+                    URL: 
+                        Ref: WebSite
+                    BUCKET:
+                        Ref: BucketName
+                    DESTPATH:
+                        Ref: ScreenshotsFolder
+            Timeout: 20
+            MemorySize: 512
+            Code:
+                S3Bucket: 
+                    Ref: BucketName
+                S3Key: 
+                    Fn::Sub: '${SourceFolder}/ScreenshotFunction.zip'
