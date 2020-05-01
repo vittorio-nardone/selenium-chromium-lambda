@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Disposable Email @ my24h.email
+Description: Selenium / Chromium Lambda function sample
     
 Parameters:
     BucketName:
