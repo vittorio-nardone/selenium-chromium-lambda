@@ -13,14 +13,21 @@ def lambda_handler(event, context):
     logger.info('## ENVIRONMENT VARIABLES')
     logger.info(os.environ)
  
-    logger.info('Generate full height screenshot')
+    screenshot_file = "{}-{}".format(''.join(filter(str.isalpha, os.environ['URL'])), str(uuid.uuid4()))
     driver = WebDriverScreenshot()
-    screenshot_file = str(uuid.uuid4()) + ".png"
-    driver.save_screenshot(os.environ['URL'], '/tmp/{}'.format(screenshot_file))
+
+    logger.info('Generate fixed height screenshot')
+    driver.save_screenshot(os.environ['URL'], '/tmp/{}-fixed.png'.format(screenshot_file), height=1024)
+
+    logger.info('Generate full height screenshot')    
+    driver.save_screenshot(os.environ['URL'], '/tmp/{}-full.png'.format(screenshot_file))
+
     driver.close()
 
-    ## Upload generated screenshot file to S3 bucket.
-    s3.upload_file('/tmp/{}'.format(screenshot_file), 
+    ## Upload generated screenshot files to S3 bucket.
+    s3.upload_file('/tmp/{}-fixed.png'.format(screenshot_file), 
                    os.environ['BUCKET'], 
-                   '{}/{}'.format(os.environ['DESTPATH'], screenshot_file))
-
+                   '{}/{}-fixed.png'.format(os.environ['DESTPATH'], screenshot_file))
+    s3.upload_file('/tmp/{}-full.png'.format(screenshot_file), 
+                   os.environ['BUCKET'], 
+                   '{}/{}-full.png'.format(os.environ['DESTPATH'], screenshot_file))

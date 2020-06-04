@@ -76,8 +76,8 @@ Resources:
                         Ref: BucketName
                     DESTPATH:
                         Ref: ScreenshotsFolder
-            Timeout: 20
-            MemorySize: 512
+            Timeout: 300
+            MemorySize: 1024
             Code:
                 S3Bucket: 
                     Ref: BucketName
