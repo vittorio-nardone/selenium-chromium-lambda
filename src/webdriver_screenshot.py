@@ -51,8 +51,9 @@ class WebDriverScreenshot:
         driver.quit()
         return height
 
-    def save_screenshot(self, url, filename, width=1280):
-        height = self.__get_correct_height(url, width=width)
+    def save_screenshot(self, url, filename, width=1280, height=None):
+        if height==None:
+            height = self.__get_correct_height(url, width=width)
 
         chrome_options=self.__get_default_chrome_options()
         chrome_options.add_argument('--window-size={}x{}'.format(width, height))
