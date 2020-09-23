@@ -7,13 +7,13 @@ fetch-dependencies:		## download chromedriver, headless-chrome to `./bin/`
 
 	# Get chromedriver
 	@if [ ! -e chromedriver.zip ]; \
-		then curl -SL https://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip > chromedriver.zip ; \
+		then curl -SL https://chromedriver.storage.googleapis.com/2.43/chromedriver_linux64.zip > chromedriver.zip ; \
 	fi;	
 	unzip -o chromedriver.zip -d bin/
 
 	# Get Headless-chrome
 	@if [ ! -e headless-chromium.zip ]; \
-		then curl -SL https://github.com/adieuadieu/serverless-chrome/releases/download/v1.0.0-29/stable-headless-chromium-amazonlinux-2017-03.zip > headless-chromium.zip ; \
+		then curl -SL https://github.com/adieuadieu/serverless-chrome/releases/download/v1.0.0-55/stable-headless-chromium-amazonlinux-2017-03.zip > headless-chromium.zip ; \
 		fi;
 	unzip -o headless-chromium.zip -d bin/
 
