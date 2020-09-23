@@ -6,7 +6,7 @@ services:
     environment:
       - PYTHONPATH=/var/task/src:/var/task/lib
       - PATH=/var/task/bin:/var/task/bin/lib
-      - URL=https://www.google.it
+      - URL=https://www.cnn.com
     volumes:
       - ./src/:/var/task/src/
       - ./tmp/:/tmp/
