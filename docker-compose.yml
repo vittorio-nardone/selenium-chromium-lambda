@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  lambda:
+    build: .
+    environment:
+      - PYTHONPATH=/var/task/src:/var/task/lib
+      - PATH=/var/task/bin:/var/task/bin/lib
+      - URL=https://www.google.it
+    volumes:
+      - ./src/:/var/task/src/
+      - ./tmp/:/tmp/

@@ -24,10 +24,11 @@ def lambda_handler(event, context):
 
     driver.close()
 
-    ## Upload generated screenshot files to S3 bucket.
-    s3.upload_file('/tmp/{}-fixed.png'.format(screenshot_file), 
-                   os.environ['BUCKET'], 
-                   '{}/{}-fixed.png'.format(os.environ['DESTPATH'], screenshot_file))
-    s3.upload_file('/tmp/{}-full.png'.format(screenshot_file), 
-                   os.environ['BUCKET'], 
-                   '{}/{}-full.png'.format(os.environ['DESTPATH'], screenshot_file))
+    if all (k in os.environ for k in ('BUCKET','DESTPATH')):
+        ## Upload generated screenshot files to S3 bucket.
+        s3.upload_file('/tmp/{}-fixed.png'.format(screenshot_file), 
+                    os.environ['BUCKET'], 
+                    '{}/{}-fixed.png'.format(os.environ['DESTPATH'], screenshot_file))
+        s3.upload_file('/tmp/{}-full.png'.format(screenshot_file), 
+                    os.environ['BUCKET'], 
+                    '{}/{}-full.png'.format(os.environ['DESTPATH'], screenshot_file))

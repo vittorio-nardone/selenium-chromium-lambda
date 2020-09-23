@@ -17,6 +17,16 @@ fetch-dependencies:		## download chromedriver, headless-chrome to `./bin/`
 		fi;
 	unzip -o headless-chromium.zip -d bin/
 
+## create Docker image with requirements
+docker-build:		
+	docker-compose build
+
+## run "src.lambda_function.lambda_handler" with docker-compose
+## mapping "./tmp" and "./src" folders. 
+## "event.json" file is loaded and provided to lambda function as event parameter  
+lambda-run:			
+	docker-compose run lambda src.lambda_function.lambda_handler 
+
 ## prepares build.zip archive for AWS Lambda deploy 
 lambda-build: clean fetch-dependencies
 	mkdir build build/lib
