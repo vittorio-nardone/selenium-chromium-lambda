@@ -20,7 +20,7 @@ CloudFormation template to create Lambda stack. Please change `WebSite` paramete
 
 `make lambda-build` to prepare archive for AWS Lambda deploy 
 
-`make BUCKET=<your_bucket_name> create-stack` to create CloudFormation stack (lambda function and IAM role)
+`make BUCKET=<your_bucket_name> STAGE=<dev_or_prod> REGION=<your_aws_region> create-stack` to create CloudFormation stack (lambda function and IAM role)
 
 ## Credits
 

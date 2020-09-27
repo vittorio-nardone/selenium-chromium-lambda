@@ -58,6 +58,7 @@ class WebDriverScreenshot:
         chrome_options=self.__get_default_chrome_options()
         chrome_options.add_argument('--window-size={}x{}'.format(width, height))
         chrome_options.add_argument('--hide-scrollbars')
+        print(f'Using window size: {width}, {height}')
 
         driver = webdriver.Chrome(chrome_options=chrome_options)
         driver.get(url)

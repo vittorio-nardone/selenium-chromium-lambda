@@ -32,4 +32,4 @@ lambda-build: clean fetch-dependencies
 ## usage:	make BUCKET=your_bucket_name create-stack 
 create-stack: 
 	aws s3 cp build.zip s3://${BUCKET}/src/ScreenshotFunction.zip
-	aws cloudformation create-stack --stack-name LambdaScreenshot --template-body file://cloud.yaml --parameters ParameterKey=BucketName,ParameterValue=${BUCKET} --capabilities CAPABILITY_IAM
+	aws cloudformation create-stack --stack-name LambdaScreenshot-${STAGE} --region=${REGION} --template-body file://cloud.yaml --parameters ParameterKey=BucketName,ParameterValue=${BUCKET} --capabilities CAPABILITY_IAM
