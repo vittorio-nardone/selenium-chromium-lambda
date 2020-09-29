@@ -18,6 +18,7 @@ lambda-build: clean
 	mkdir build build/lib
 	cp -r src build/.
 	cp -r bin build/.
+	cd build/bin; unzip -u ../../chromium.zip 
 	pip3 install -r requirements.txt -t build/lib
 	cd build; zip -9qr build.zip .
 	cp build/build.zip .
