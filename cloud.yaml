@@ -61,7 +61,7 @@ Resources:
     ScreenshotFunction:
         Type: AWS::Lambda::Function
         Properties:
-            Runtime: python3.7
+            Runtime: python3.6
             Description: Function to take a screenshot of a website.
             Handler: src/lambda_function.lambda_handler
             Role: 
@@ -69,15 +69,15 @@ Resources:
             Environment:
                 Variables:
                     PYTHONPATH: "/var/task/src:/var/task/lib"
-                    PATH: "/var/task/bin"
+                    PATH: "/var/task/bin:/var/task/bin/lib"
                     URL: 
                         Ref: WebSite
                     BUCKET:
                         Ref: BucketName
                     DESTPATH:
                         Ref: ScreenshotsFolder
-            Timeout: 300
-            MemorySize: 1024
+            Timeout: 60
+            MemorySize: 2048
             Code:
                 S3Bucket: 
                     Ref: BucketName

@@ -1,5 +1,3 @@
-bin/*
-chromedriver.zip
-headless-chromium.zip
 build.zip
 tmp/*
+__pycache__

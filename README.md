@@ -8,9 +8,9 @@ An example about taking a full height screenshot of a given webpage in Python.
 
 ## UPDATE
 
-I’ve updated project to use:
-- Chromium 69.0.3497.81 (severless-chrome 1.0.0-55)
-- Chromedriver 2.43
+I’ve updated project to successfully use:
+- Chromium 86.0.4240.0
+- Chromedriver 86.0.4240.22.0
 - Selenium 3.14
 
 ## Contents
@@ -22,8 +22,6 @@ Lambda source code is in `src/lambda_function.py`. It's a sample function using 
 CloudFormation template to create Lambda stack. Please change `WebSite` parameter to your favorite URL.
 
 ## Commands
-
-`make fetch-dependencies` to download chromedriver and headless-chrome
 
 `make lambda-build` to prepare archive for AWS Lambda deploy 
 

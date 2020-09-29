@@ -1,8 +1,11 @@
 import os
 import shutil
 import uuid
+import logging
 
 from selenium import webdriver
+
+logger = logging.getLogger()
 
 class WebDriverScreenshot:
     def __init__(self):
@@ -27,18 +30,14 @@ class WebDriverScreenshot:
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--user-data-dir={}'.format(self._tmp_folder + '/user-data'))
-        chrome_options.add_argument('--enable-logging')
-        chrome_options.add_argument('--log-level=0')
-        chrome_options.add_argument('--v=99')
         chrome_options.add_argument('--single-process')
         chrome_options.add_argument('--data-path={}'.format(self._tmp_folder + '/data-path'))
         chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--homedir={}'.format(self._tmp_folder))
         chrome_options.add_argument('--disk-cache-dir={}'.format(self._tmp_folder + '/cache-dir'))
-        chrome_options.add_argument(
-            'user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36')
+        chrome_options.add_argument('--disable-dev-shm-usage')
 
-        chrome_options.binary_location = os.getcwd() + "/bin/headless-chromium" 
+        chrome_options.binary_location = os.getcwd() + "/bin/chromium" 
 
         return chrome_options      
 
@@ -60,6 +59,7 @@ class WebDriverScreenshot:
         chrome_options.add_argument('--hide-scrollbars')
 
         driver = webdriver.Chrome(chrome_options=chrome_options)
+        logger.info('Using Chromium version: {}'.format(driver.capabilities['browserVersion']))
         driver.get(url)
         driver.save_screenshot(filename)
         driver.quit()
@@ -68,14 +68,5 @@ class WebDriverScreenshot:
         # Remove specific tmp dir of this "run"
         shutil.rmtree(self._tmp_folder)
 
-        # Remove possible core dumps
-        folder = '/tmp'
-        for the_file in os.listdir(folder):
-            file_path = os.path.join(folder, the_file)
-            try:
-                if 'core.headless-chromi' in file_path and os.path.exists(file_path) and os.path.isfile(file_path):
-                    os.unlink(file_path)
-            except Exception as e:
-                print(e)
 
  
