@@ -14,8 +14,10 @@ lambda-run:	docker-build
 	docker-compose run lambda src.lambda_function.lambda_handler 
 
 ## create Docker image with requirements
-docker-build:		
+docker-build:	
+	cd bin; unzip -u ../chromium.zip 	
 	docker-compose build
+	rm -f bin/chromium
 
 ## run "src.lambda_function.lambda_handler" with docker-compose
 ## mapping "./tmp" and "./src" folders. 
