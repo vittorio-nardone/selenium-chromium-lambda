@@ -26,16 +26,54 @@ class WebDriverScreenshot:
     def __get_default_chrome_options(self):
         chrome_options = webdriver.ChromeOptions()
 
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--no-sandbox')
-        chrome_options.add_argument('--disable-gpu')
+        lambda_options = [
+            '--autoplay-policy=user-gesture-required',
+            '--disable-background-networking',
+            '--disable-background-timer-throttling',
+            '--disable-backgrounding-occluded-windows',
+            '--disable-breakpad',
+            '--disable-client-side-phishing-detection',
+            '--disable-component-update',
+            '--disable-default-apps',
+            '--disable-dev-shm-usage',
+            '--disable-domain-reliability',
+            '--disable-extensions',
+            '--disable-features=AudioServiceOutOfProcess',
+            '--disable-hang-monitor',
+            '--disable-ipc-flooding-protection',
+            '--disable-notifications',
+            '--disable-offer-store-unmasked-wallet-cards',
+            '--disable-popup-blocking',
+            '--disable-print-preview',
+            '--disable-prompt-on-repost',
+            '--disable-renderer-backgrounding',
+            '--disable-setuid-sandbox',
+            '--disable-speech-api',
+            '--disable-sync',
+            '--disk-cache-size=33554432',
+            '--hide-scrollbars',
+            '--ignore-gpu-blacklist',
+            '--ignore-certificate-errors',
+            '--metrics-recording-only',
+            '--mute-audio',
+            '--no-default-browser-check',
+            '--no-first-run',
+            '--no-pings',
+            '--no-sandbox',
+            '--no-zygote',
+            '--password-store=basic',
+            '--use-gl=swiftshader',
+            '--use-mock-keychain',
+            '--single-process',
+            '--headless']
+
+        #chrome_options.add_argument('--disable-gpu')
+        for argument in lambda_options:
+            chrome_options.add_argument(argument)          
         chrome_options.add_argument('--user-data-dir={}'.format(self._tmp_folder + '/user-data'))
-        chrome_options.add_argument('--single-process')
         chrome_options.add_argument('--data-path={}'.format(self._tmp_folder + '/data-path'))
-        chrome_options.add_argument('--ignore-certificate-errors')
         chrome_options.add_argument('--homedir={}'.format(self._tmp_folder))
         chrome_options.add_argument('--disk-cache-dir={}'.format(self._tmp_folder + '/cache-dir'))
-        chrome_options.add_argument('--disable-dev-shm-usage')
 
         chrome_options.binary_location = os.getcwd() + "/bin/chromium" 
 
@@ -51,7 +89,7 @@ class WebDriverScreenshot:
         return height
 
     def save_screenshot(self, url, filename, width=1280, height=None):
-        if height==None:
+        if height is None:
             height = self.__get_correct_height(url, width=width)
 
         chrome_options=self.__get_default_chrome_options()
