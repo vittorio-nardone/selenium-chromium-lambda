@@ -75,7 +75,7 @@ class WebDriverScreenshot:
         chrome_options.add_argument('--homedir={}'.format(self._tmp_folder))
         chrome_options.add_argument('--disk-cache-dir={}'.format(self._tmp_folder + '/cache-dir'))
 
-        chrome_options.binary_location = os.getcwd() + "/bin/chromium" 
+        chrome_options.binary_location = "/opt/bin/chromium" 
 
         return chrome_options      
 

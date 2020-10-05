@@ -68,8 +68,8 @@ Resources:
                 Fn::GetAtt: [ "ScreenshotFunctionRole", "Arn" ]
             Environment:
                 Variables:
-                    PYTHONPATH: "/var/task/src:/var/task/lib"
-                    PATH: "/var/task/bin:/var/task/bin/lib"
+                    PYTHONPATH: "/var/task/src:/opt/python"
+                    PATH: "/opt/bin:/opt/bin/lib"
                     URL: 
                         Ref: WebSite
                     BUCKET:
@@ -83,3 +83,18 @@ Resources:
                     Ref: BucketName
                 S3Key: 
                     Fn::Sub: '${SourceFolder}/ScreenshotFunction.zip'
+            Layers:
+                - Ref: SeleniumChromiumLayer
+
+    SeleniumChromiumLayer:
+        Type: AWS::Lambda::LayerVersion
+        Properties:
+            CompatibleRuntimes:
+                - python3.6
+            Content:
+                S3Bucket: 
+                    Ref: BucketName
+                S3Key: 
+                    Fn::Sub: '${SourceFolder}/SeleniumChromiumLayer.zip'
+            Description: Selenium and Chromium Layer for Python3.6
+
