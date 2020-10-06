@@ -1,4 +1,4 @@
-# selenium-chromium-lambda
+# λ selenium-chromium-lambda
 
 How to run automated (Selenium) Headless Chromium in AWS Lambda.
 
