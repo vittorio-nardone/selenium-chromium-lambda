@@ -50,6 +50,6 @@ lambda-function-build: clean
 ## create CloudFormation stack with lambda function and role.
 ## usage:	make BUCKET=your_bucket_name create-stack 
 create-stack: 
-	#aws s3 cp layer.zip s3://${BUCKET}/src/SeleniumChromiumLayer.zip
-	#aws s3 cp deploy.zip s3://${BUCKET}/src/ScreenshotFunction.zip
+	aws s3 cp layer.zip s3://${BUCKET}/src/SeleniumChromiumLayer.zip
+	aws s3 cp deploy.zip s3://${BUCKET}/src/ScreenshotFunction.zip
 	aws cloudformation create-stack --stack-name LambdaScreenshot --template-body file://cloud.yaml --parameters ParameterKey=BucketName,ParameterValue=${BUCKET} --capabilities CAPABILITY_IAM
