@@ -27,13 +27,14 @@ def lambda_handler(event, context):
     url = event['url']
     format = event['format']
     key_path = event['s3_key']
+    bucket = event['s3_bucket'] if 's3_bucket' in event else os.environ['BUCKET']
     driver.save_screenshot(url, png_file_path, width=1245, height=1755)
 
     driver.close()
 
     if format == 'png':
         s3.upload_file(png_file_path, 
-                    os.environ['BUCKET'],
+                    bucket,
                     key_path)
     if format == 'pdf':
         from fpdf import FPDF
@@ -42,7 +43,7 @@ def lambda_handler(event, context):
         pdf.image(png_file_path, 5, 5, 200)
         pdf.output(pdf_file_path, 'F')
         s3.upload_file(pdf_file_path, 
-                    os.environ['BUCKET'],
+                    bucket,
                     key_path)
 
     ## Upload generated screenshot files to S3 bucket.
